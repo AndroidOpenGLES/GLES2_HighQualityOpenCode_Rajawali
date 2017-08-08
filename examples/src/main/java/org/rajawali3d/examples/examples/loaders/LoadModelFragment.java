@@ -54,19 +54,19 @@ public class LoadModelFragment extends AExampleFragment {
 				e.printStackTrace();
 			}
 
-			mLightAnim = new EllipticalOrbitAnimation3D(new Vector3(),
-					new Vector3(0, 10, 0), Vector3.getAxisVector(Vector3.Axis.Z), 0,
-					360, EllipticalOrbitAnimation3D.OrbitDirection.CLOCKWISE);
-
-			mLightAnim.setDurationMilliseconds(3000);
-			mLightAnim.setRepeatMode(Animation.RepeatMode.INFINITE);
-			mLightAnim.setTransformable3D(mLight);
+//			mLightAnim = new EllipticalOrbitAnimation3D(new Vector3(),
+//					new Vector3(0, 10, 0), Vector3.getAxisVector(Vector3.Axis.Z), 0,
+//					360, EllipticalOrbitAnimation3D.OrbitDirection.CLOCKWISE);
+//
+//			mLightAnim.setDurationMilliseconds(3000);
+//			mLightAnim.setRepeatMode(Animation.RepeatMode.INFINITE);
+//			mLightAnim.setTransformable3D(mLight);
 
 			getCurrentScene().registerAnimation(mCameraAnim);
-			getCurrentScene().registerAnimation(mLightAnim);
+			//getCurrentScene().registerAnimation(mLightAnim);
 
 			mCameraAnim.play();
-			mLightAnim.play();
+			//mLightAnim.play();
 		}
 
 	}

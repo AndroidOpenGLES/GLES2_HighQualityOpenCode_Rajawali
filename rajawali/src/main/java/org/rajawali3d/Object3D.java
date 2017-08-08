@@ -1,11 +1,11 @@
 /**
  * Copyright 2013 Dennis Ippel
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -15,6 +15,7 @@ package org.rajawali3d;
 import android.graphics.Color;
 import android.opengl.GLES20;
 import android.support.annotation.NonNull;
+
 import org.rajawali3d.bounds.BoundingBox;
 import org.rajawali3d.bounds.IBoundingVolume;
 import org.rajawali3d.cameras.Camera;
@@ -42,16 +43,16 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Object3D extends ATransformable3D implements Comparable<Object3D>, INode {
 
-    public static final int RED   = 0;
+    public static final int RED = 0;
     public static final int GREEN = 1;
-    public static final int BLUE  = 2;
+    public static final int BLUE = 2;
     public static final int ALPHA = 3;
 
     public static final int UNPICKABLE = -1;
 
     protected final Matrix4 mMVPMatrix = new Matrix4();
 
-    protected final Matrix4 mMVMatrix          = new Matrix4();
+    protected final Matrix4 mMVMatrix = new Matrix4();
     protected final Matrix4 mInverseViewMatrix = new Matrix4();
     protected Matrix4 mPMatrix;
     protected Matrix4 mParentMatrix;
@@ -61,32 +62,33 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
 
     protected Material mMaterial;
 
-    protected Geometry3D     mGeometry;
-    protected Object3D       mParent;
+    protected Geometry3D mGeometry;
+    protected Object3D mParent;
     protected List<Object3D> mChildren;
-    protected String         mName;
+    protected String mName;
 
-    protected boolean mDoubleSided           = false;
-    protected boolean mBackSided             = false;
-    protected boolean mTransparent           = false;
-    protected boolean mForcedDepth           = false;
-    protected boolean mHasCubemapTexture     = false;
-    protected boolean mIsVisible             = true;
-    protected boolean mShowBoundingVolume    = false;
+    // 单面还是两面
+    protected boolean mDoubleSided = false;
+    protected boolean mBackSided = false;
+    protected boolean mTransparent = false;
+    protected boolean mForcedDepth = false;
+    protected boolean mHasCubemapTexture = false;
+    protected boolean mIsVisible = true;
+    protected boolean mShowBoundingVolume = false;
     protected boolean mOverrideMaterialColor = false;
-    protected int     mDrawingMode           = GLES20.GL_TRIANGLES;
-    protected int     mElementsBufferType    = GLES20.GL_UNSIGNED_INT;
+    protected int mDrawingMode = GLES20.GL_TRIANGLES;
+    protected int mElementsBufferType = GLES20.GL_UNSIGNED_INT;
 
     protected boolean mIsContainerOnly = true;
-    protected int     mPickingIndex;
+    protected int mPickingIndex;
     protected float[] mPickingColor;
 
     protected boolean mFrustumTest = false;
     protected boolean mIsInFrustum;
 
     protected boolean mRenderChildrenAsBatch = false;
-    protected boolean mIsPartOfBatch         = false;
-    protected boolean mManageMaterial        = true;
+    protected boolean mIsPartOfBatch = false;
+    protected boolean mManageMaterial = true;
 
     protected boolean mEnableBlending = false;
     protected int mBlendFuncSFactor;
@@ -100,7 +102,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
         super();
         mChildren = Collections.synchronizedList(new CopyOnWriteArrayList<Object3D>());
         mGeometry = new Geometry3D();
-        mColor = new float[]{ 0, 1, 0, 1.0f };
+        mColor = new float[]{0, 1, 0, 1.0f};
         mPickingColor = new float[4];
         setPickingColor(UNPICKABLE);
         ensureModelMatrix();
@@ -149,7 +151,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
                         int textureCoordsUsage,
                         float[] colors, int colorsUsage, int[] indices, int indicesUsage, boolean createVBOs) {
         mGeometry.setData(vertices, verticesUsage, normals, normalsUsage, textureCoords, textureCoordsUsage, colors,
-                          colorsUsage, indices, indicesUsage, createVBOs);
+                colorsUsage, indices, indicesUsage, createVBOs);
         mIsContainerOnly = false;
         mElementsBufferType = GLES20.GL_UNSIGNED_INT;
     }
@@ -255,8 +257,8 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
             if (!mIsPartOfBatch) {
                 if (material == null) {
                     RajLog.e("[" + this.getClass().getName()
-                             + "] This object can't render because there's no material attached to it.");
-					/*throw new RuntimeException(
+                            + "] This object can't render because there's no material attached to it.");
+                    /*throw new RuntimeException(
 							"This object can't render because there's no material attached to it.");*/
                     if (mEnableBlending) {
                         GLES20.glDisable(GLES20.GL_BLEND);
@@ -304,7 +306,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
 
             if (mIsVisible) {
                 int bufferType = mGeometry.getIndexBufferInfo().bufferType == Geometry3D.BufferType.SHORT_BUFFER
-                                 ? GLES20.GL_UNSIGNED_SHORT : GLES20.GL_UNSIGNED_INT;
+                        ? GLES20.GL_UNSIGNED_SHORT : GLES20.GL_UNSIGNED_INT;
                 GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, mGeometry.getIndexBufferInfo().bufferHandle);
                 GLES20.glDrawElements(mDrawingMode, mGeometry.getNumIndices(), bufferType, 0);
                 GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -479,7 +481,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
 
             // Draw the object using its picking color
             int bufferType = mGeometry.getIndexBufferInfo().bufferType == Geometry3D.BufferType.SHORT_BUFFER
-                             ? GLES20.GL_UNSIGNED_SHORT : GLES20.GL_UNSIGNED_INT;
+                    ? GLES20.GL_UNSIGNED_SHORT : GLES20.GL_UNSIGNED_INT;
             GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, mGeometry.getIndexBufferInfo().bufferHandle);
             GLES20.glDrawElements(mDrawingMode, mGeometry.getNumIndices(), bufferType, 0);
             GLES20.glBindBuffer(GLES20.GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -568,7 +570,7 @@ public class Object3D extends ATransformable3D implements Comparable<Object3D>, 
      */
     public void setScreenCoordinates(double x, double y, int viewportWidth, int viewportHeight, double eyeZ) {
         double[] r1 = new double[16];
-        int[] viewport = new int[]{ 0, 0, viewportWidth, viewportHeight };
+        int[] viewport = new int[]{0, 0, viewportWidth, viewportHeight};
         double[] modelMatrix = new double[16];
         Matrix.setIdentityM(modelMatrix, 0);
 
